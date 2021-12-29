@@ -8,6 +8,25 @@ repositories {
     mavenCentral() // points to Maven Central
 }
 
+
+
+// This task creates a file with a classpath descriptor, to be used in tests
+val createClasspathManifest by tasks.registering { // This delegate uses the variable name as task name
+    val outputDir = File(buildDir, name) // We will write in this folder
+
+    inputs.files(sourceSets.main.get().runtimeClasspath) // Our input is a ready runtime classpath
+    // Note: due to the line above, this task implicitly requires our plugin to be compiled!
+    outputs.dir(outputDir) // we register the output directory as an output of the task
+    doLast { // This is the task the action will execute
+        outputDir.mkdirs() // Create the directory infrastructure
+        // Write a file with one classpath entry per line
+        file("$outputDir/plugin-classpath.txt").writeText(
+            sourceSets.main.get().runtimeClasspath
+                .joinToString("\n")
+        )
+    }
+}
+
 dependencies {
     implementation(gradleApi())
     implementation(gradleKotlinDsl())
@@ -16,14 +35,17 @@ dependencies {
     // The call to "kotlin" passing `module`, returns a String "org.jetbrains.kotlin:kotlin-$module:<KotlinVersion>"
 
     testImplementation(gradleTestKit()) // Test implementation: available for testing compile and runtime
-    val kotestVersion = "5.0.2"
+    val kotestVersion = "4.6.4"
     fun kotest(module: String) = "io.kotest:kotest-$module:$kotestVersion"
     testImplementation(kotest("runner-junit5")) // for kotest framework
     testImplementation(kotest("assertions-core")) // for kotest core assertions
     testImplementation(kotest("assertions-core-jvm")) // for kotest core jvm assertions
+    testRuntimeOnly(files(createClasspathManifest))
 }
 
+
 tasks.withType<Test> { // The task type is defined in the Java plugin
+    dependsOn(createClasspathManifest) // before execute the test, the task needs to be executed
     useJUnitPlatform() // Use JUnit 5 engine
     testLogging {
         showCauses = true
