@@ -1,15 +1,18 @@
+
+group = "io.github.matteocaval"
+
 plugins {
     // No magic: calls a method running behind the scenes the same of id("org.jetbrains.kotlin-$jvm")
     kotlin("jvm") version "1.5.31" // version is necessary
     alias(libs.plugins.gitSemVer)
+    `java-gradle-plugin`
+    alias(libs.plugins.publishPlugin)
 }
 
 // Configuration of software sources
 repositories {
     mavenCentral() // points to Maven Central
 }
-
-group = "io.github.matteocaval"
 
 
 // This task creates a file with a classpath descriptor, to be used in tests
@@ -55,5 +58,22 @@ tasks.withType<Test> { // The task type is defined in the Java plugin
         showStandardStreams = true
         events(*org.gradle.api.tasks.testing.logging.TestLogEvent.values())
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+    }
+}
+
+pluginBundle {
+    website = "https://matteocaval.github.io/"
+    vcsUrl = "https://github.com/MatteoCaval/lss-plugin-example"
+    tags = listOf("lss", "greeting", "example")
+}
+
+gradlePlugin {
+    plugins {
+        create("GreetingPlugin") {
+            id = "${project.group}.${project.name}"
+            displayName = "Lss Plugin Example"
+            description = "Example plugin"
+            implementationClass = "it.unibo.lss.firstplugin.GreetingPlugin"
+        }
     }
 }
