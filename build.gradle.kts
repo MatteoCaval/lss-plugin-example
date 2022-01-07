@@ -1,12 +1,10 @@
-
-group = "io.github.matteocaval"
-
 plugins {
     // No magic: calls a method running behind the scenes the same of id("org.jetbrains.kotlin-$jvm")
     kotlin("jvm") version "1.5.31" // version is necessary
     alias(libs.plugins.gitSemVer)
     `java-gradle-plugin`
     alias(libs.plugins.publishPlugin)
+    `maven-publish`
 }
 
 // Configuration of software sources
@@ -61,6 +59,9 @@ tasks.withType<Test> { // The task type is defined in the Java plugin
     }
 }
 
+
+group = "io.github.matteocaval"
+
 pluginBundle {
     website = "https://matteocaval.github.io/"
     vcsUrl = "https://github.com/MatteoCaval/lss-plugin-example"
@@ -69,11 +70,16 @@ pluginBundle {
 
 gradlePlugin {
     plugins {
-        create("GreetingPlugin") {
-            id = "${project.group}.${project.name}"
+        create("lss-plugin-example") {
+            id = "$group.${project.name}"
             displayName = "Lss Plugin Example"
             description = "Example plugin"
             implementationClass = "it.unibo.lss.firstplugin.GreetingPlugin"
+            group = "io.github.matteocaval"
         }
     }
+}
+
+gitSemVer {
+    buildMetadataSeparator.set("-")
 }
