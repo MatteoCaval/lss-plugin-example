@@ -1,0 +1,2 @@
+[plugins]
+gitSemVer = { id = "org.danilopianini.git-sensitive-semantic-versioning", version = "0.3.0" }

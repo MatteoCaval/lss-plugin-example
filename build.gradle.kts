@@ -1,6 +1,7 @@
 plugins {
     // No magic: calls a method running behind the scenes the same of id("org.jetbrains.kotlin-$jvm")
     kotlin("jvm") version "1.5.31" // version is necessary
+    alias(libs.plugins.gitSemVer)
 }
 
 // Configuration of software sources
@@ -8,6 +9,7 @@ repositories {
     mavenCentral() // points to Maven Central
 }
 
+group = "io.github.matteocaval"
 
 
 // This task creates a file with a classpath descriptor, to be used in tests
