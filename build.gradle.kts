@@ -38,7 +38,7 @@ val createClasspathManifest by tasks.registering { // This delegate uses the var
 dependencies {
     implementation(gradleApi())
     implementation(gradleKotlinDsl())
-    // "implementation" is a configuration created by by the Kotlin plugin
+    // "implementation" is a configuration created by the Kotlin plugin
     implementation(kotlin("stdlib-jdk8")) // "kotlin" is an extension method of DependencyHandler
     // The call to "kotlin" passing `module`, returns a String "org.jetbrains.kotlin:kotlin-$module:<KotlinVersion>"
 
