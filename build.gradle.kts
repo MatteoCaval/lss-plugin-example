@@ -5,6 +5,8 @@ plugins {
     `java-gradle-plugin`
     alias(libs.plugins.publishPlugin)
     `maven-publish`
+    jacoco
+    id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
 }
 
 // Configuration of software sources
@@ -82,4 +84,37 @@ gradlePlugin {
 
 gitSemVer {
     buildMetadataSeparator.set("-")
+}
+
+tasks.jacocoTestReport {
+    reports {
+//        xml.isEnabled = true // Useful for processing result automatically
+        html.isEnabled = true // Useful for human inspection
+    }
+}
+
+// Disable JaCoCo on Windows, see: https://issueexplorer.com/issue/koral--/jacoco-gradle-testkit-plugin/9
+tasks.jacocoTestCoverageVerification {
+    enabled = !org.apache.tools.ant.taskdefs.condition.Os.isFamily(
+        org.apache.tools.ant.taskdefs.condition.Os.FAMILY_WINDOWS
+    )
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { // aggressive compile settings
+    kotlinOptions {
+//        allWarningsAsErrors = true
+    }
+}
+
+tasks {
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "11"
+        }
+    }
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "11"
+        }
+    }
 }
