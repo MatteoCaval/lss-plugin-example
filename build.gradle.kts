@@ -7,6 +7,7 @@ plugins {
     `maven-publish`
     jacoco
     id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
+    alias(libs.plugins.ktlint)
 }
 
 // Configuration of software sources
