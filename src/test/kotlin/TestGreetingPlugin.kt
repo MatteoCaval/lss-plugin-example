@@ -26,10 +26,10 @@ class TestGreetingPlugin : FreeSpec({
                               "Ciao"
                          }
                     }
-                    """.trimIndent()
+            """.trimIndent()
         )
     }
-    //create a gradle runner
+    // create a gradle runner
     val result = GradleRunner.create()
         .withPluginClasspath(manifest.lines().map { File(it) })
         .withProjectDir(tempDir)

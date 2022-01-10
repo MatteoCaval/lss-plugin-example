@@ -15,7 +15,6 @@ repositories {
     mavenCentral() // points to Maven Central
 }
 
-
 // This task creates a file with a classpath descriptor, to be used in tests
 val createClasspathManifest by tasks.registering { // This delegate uses the variable name as task name
     val outputDir = File(buildDir, name) // We will write in this folder
@@ -49,7 +48,6 @@ dependencies {
     testRuntimeOnly(files(createClasspathManifest))
 }
 
-
 tasks.withType<Test> { // The task type is defined in the Java plugin
     dependsOn(createClasspathManifest) // before execute the test, the task needs to be executed
     useJUnitPlatform() // Use JUnit 5 engine
@@ -61,7 +59,6 @@ tasks.withType<Test> { // The task type is defined in the Java plugin
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
 }
-
 
 group = "io.github.matteocaval"
 
@@ -90,7 +87,7 @@ gitSemVer {
 tasks.jacocoTestReport {
     reports {
 //        xml.isEnabled = true // Useful for processing result automatically
-        html.isEnabled = true // Useful for human inspection
+        html.required.set(true) // Useful for human inspection
     }
 }
 
@@ -104,18 +101,5 @@ tasks.jacocoTestCoverageVerification {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { // aggressive compile settings
     kotlinOptions {
 //        allWarningsAsErrors = true
-    }
-}
-
-tasks {
-    compileKotlin {
-        kotlinOptions {
-            jvmTarget = "11"
-        }
-    }
-    compileTestKotlin {
-        kotlinOptions {
-            jvmTarget = "11"
-        }
     }
 }

@@ -27,8 +27,7 @@ open class GreetingTask : DefaultTask() {
     }
 }
 
-
-//dsl entry point
+// dsl entry point
 open class GreetingExtension(private val project: Project) {
     val defaultGreeting: Property<String> = project.objects.property(String::class.java)
         .apply { convention("Hello from") } // Set a conventional value
@@ -36,7 +35,6 @@ open class GreetingExtension(private val project: Project) {
     // A DSL would go there
     fun greetWith(greeting: () -> String) = defaultGreeting.set(greeting())
 }
-
 
 class GreetingPlugin : Plugin<Project> {
     override fun apply(target: Project) {
