@@ -114,3 +114,17 @@ detekt {
     buildUponDefaultConfig = true // preconfigure defaults
     config = files("$projectDir/config/detekt.yml") // Custom additional rules
 }
+
+// creates a jar for the javadoc, to be found under build->libs
+val javadocJar by tasks.registering(Jar::class) {
+    dependsOn(tasks.dokkaJavadoc)
+    archiveClassifier.set("javadoc")
+    from(tasks.dokkaJavadoc.get().outputs.files) // Automatically makes it depend on dokkaJavadoc
+}
+
+// creates a jar for the sources (sorgenti), to be found under build->libs
+val sourcesJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("source")
+    from(tasks.compileKotlin.get().source)
+    from(tasks.processResources.get().outputs.files)
+}
