@@ -8,6 +8,7 @@ plugins {
     jacoco
     id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
 }
 
 // Configuration of software sources
@@ -46,6 +47,9 @@ dependencies {
     testImplementation(kotest("assertions-core")) // for kotest core assertions
     testImplementation(kotest("assertions-core-jvm")) // for kotest core jvm assertions
     testRuntimeOnly(files(createClasspathManifest))
+
+    // Adds a configuration "detektPlugins"
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")
 }
 
 tasks.withType<Test> { // The task type is defined in the Java plugin
@@ -102,4 +106,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { // aggressive 
     kotlinOptions {
 //        allWarningsAsErrors = true
     }
+}
+
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    config = files("$projectDir/config/detekt.yml") // Custom additional rules
 }
