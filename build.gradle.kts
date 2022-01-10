@@ -9,6 +9,8 @@ plugins {
     id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.dokka)
+
 }
 
 // Configuration of software sources
