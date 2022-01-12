@@ -1,6 +1,7 @@
 plugins {
     // No magic: calls a method running behind the scenes the same of id("org.jetbrains.kotlin-$jvm")
     kotlin("jvm") version "1.5.31" // version is necessary
+    signing
     alias(libs.plugins.gitSemVer)
     `java-gradle-plugin`
     alias(libs.plugins.publishPlugin)
@@ -10,7 +11,6 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
-
 }
 
 // Configuration of software sources
@@ -127,4 +127,11 @@ val sourcesJar by tasks.registering(Jar::class) {
     archiveClassifier.set("source")
     from(tasks.compileKotlin.get().source)
     from(tasks.processResources.get().outputs.files)
+}
+
+
+signing {
+    tasks.withType<Jar> {
+        sign(this)
+    }
 }
