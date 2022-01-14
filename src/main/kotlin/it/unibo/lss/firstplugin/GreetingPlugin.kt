@@ -25,6 +25,7 @@ open class GreetingTask : DefaultTask() {
         // "logger" is a property of DefaultTask
         logger.quiet(message.get())
     }
+    
 }
 
 // dsl entry point
@@ -34,7 +35,7 @@ open class GreetingExtension(private val project: Project) {
 
     // A DSL would go there
     fun greetWith(greeting: () -> String) = defaultGreeting.set(greeting())
-    
+
 }
 
 class GreetingPlugin : Plugin<Project> {
