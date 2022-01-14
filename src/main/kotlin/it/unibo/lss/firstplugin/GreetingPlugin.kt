@@ -34,6 +34,7 @@ open class GreetingExtension(private val project: Project) {
 
     // A DSL would go there
     fun greetWith(greeting: () -> String) = defaultGreeting.set(greeting())
+    
 }
 
 class GreetingPlugin : Plugin<Project> {
